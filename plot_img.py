@@ -1,4 +1,5 @@
 # Load pickled data
+# http://stackoverflow.com/questions/29382080/matplotlib-show-many-images-in-single-pdf-page
 import pickle
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
