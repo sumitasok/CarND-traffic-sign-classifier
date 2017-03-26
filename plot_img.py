@@ -42,41 +42,50 @@ X_test, y_test = test['features'], test['labels']
 # print("Number of classes =", np.unique(y_train, return_counts = True))
 
 X_y_map = zip(X_train, y_train)
-uniq_X_y, X_y_count = np.unique(X_y_map, return_counts = True)
+# uniq_X_y, X_y_count = np.unique(X_y_map, return_counts = True)
 
-gs = gridspec.GridSpec(8, 3, top=1., bottom=0., right=1., left=0., hspace=0.,
-        wspace=0.)
+# gs = gridspec.GridSpec(8, 3, top=1., bottom=0., right=1., left=0., hspace=0.,
+#         wspace=0.)
 
-uniq_X = np.unique(X_train)
+# uniq_X = np.unique(X_train)
 
 labels_plotted = []
-for g in gs:
-    ax = plt.subplot(g)
-    setFlag = True
-    for img, label in X_y_map:
-        if label not in labels_plotted:
-            print("caught ", label, "current", labels_plotted)
-            ax.imshow(img.squeeze())
-            ax.set_xticks([])
-            ax.set_yticks([])
-            labels_plotted.append(label)
-            setFlag = False
-            break
-        print("in gs", label)
+# for g in gs:
+#     ax = plt.subplot(g)
+#     for img, label in X_y_map:
+#         if label not in labels_plotted:
+#             print("caught ", label, "current", labels_plotted)
+#             ax.imshow(img.squeeze())
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             labels_plotted.append(label)
+#             break
 
 
 # np.random.seed(0)
 # grid = np.random.rand(4, 4)
 
-# fig, axes = plt.subplots(3, 6, figsize=(12, 6),
-#                          subplot_kw={'xticks': [], 'yticks': []})
+label_dict = {}
 
-# fig.subplots_adjust(hspace=0.3, wspace=0.05)
+label_count = np.unique(y_train, return_counts = True)
 
-# for ax, interp_method in zip(axes.flat, methods):
-#     image = X_train[0].squeeze()
-#     ax.imshow(grid, interpolation=interp_method, cmap='Greys')
-#     ax.set_title(interp_method)
+for label_count_item in zip(label_count[0], label_count[1]):
+    label_dict[label_count_item[0]] = label_count_item[1]
+
+fig, axes = plt.subplots(8, 6, figsize=(12, 12),
+                         subplot_kw={'xticks': [], 'yticks': []})
+
+fig.subplots_adjust(hspace=0.3, wspace=0.05)
+
+for ax in axes.flat:
+    for img, label in X_y_map:
+        if label not in labels_plotted:
+            ax.imshow(img.squeeze())
+            ax.set_title("l: " +str(label) + " c: " + str(label_dict[label]))
+            ax.set_xticks([])
+            ax.set_yticks([])
+            labels_plotted.append(label)
+            break
 
 # plt.show()
 
