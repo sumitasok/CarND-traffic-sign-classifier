@@ -30,11 +30,20 @@ logits = tf.add(tf.matmul(features, weights), bias)
 
 # Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=labels))
+# Why is loss the mean of softmax function.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 
 # Calculate accuracy
 correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(labels, 1))
+
+# what argmax does is, it computes the largest value in the tensor (or the array)
+# and returns the index of the largest value.
+# Labels are an array of zeros with 1 for the correct label.
+# if both the indexes match, it means that the prediction was correct.
+
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+# accuracy is computed by calculating the mean of all the predictions.
 
 
 # TODO: Set batch size
