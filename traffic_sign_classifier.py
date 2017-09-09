@@ -142,6 +142,15 @@ rate = 0.001  #learning rate tells how quickly to update network weights
 
 logits = LeNet(x)  #pass input to LeNet to calc
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=one_hot_y) #logit error across all training labels 
+
+# I am trying to split soft max and cross entrpy functions so that I can pass softmax into top_k
+
+prediction = tf.nn.softmax(logits)
+cross_e = - tf.reduce_sum(one_hot_y * tf.log(prediction), reduction_indices = 1)
+
+
+
+
 loss_operation = tf.reduce_mean(cross_entropy) #average cross_entropy
 optimizer = tf.train.AdamOptimizer(learning_rate = rate) #variant of Stochastic Gradient Descent
 training_operation = optimizer.minimize(loss_operation) #for BackPropagation

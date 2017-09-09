@@ -1,1 +1,1 @@
-{"module_predecessor": null, "family_id": "wyZewsP6PWV9XApfkxDPVU", "experiment_predecessor": null, "name": "train-epoch", "version": 1}
+{"experiment_predecessor": "Fa9KR2Srz6AbgxaZ9ZKPUK", "module_predecessor": "EKN6eGKcg3oLWCn4LmQQGk", "name": "traffic-sign", "family_id": "VMTXb72XVnty27GAgQ6nVV", "version": 2}
