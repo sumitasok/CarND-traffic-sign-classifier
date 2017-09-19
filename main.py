@@ -103,10 +103,9 @@ X_valid = normalize(X_valid).astype(np.float32)
 #                                                   test_size=0.3,
 #                                                   random_state=SEED)
 
+# print("data augmentation started")
 # X_train, y_train = add_augumented_data(X_train, y_train, N_TRANSFORMS)
-print("data augmentation started")
-X_train, y_train = add_augumented_data(X_train, y_train, N_TRANSFORMS)
-print("data augmentation completed")
+# print("data augmentation completed")
 
 print("Number of training features =", X_train.shape[0])
 print("Number of validation features =", X_valid.shape[0])
@@ -219,10 +218,17 @@ def LeNet(x):
     fc2_b  = tf.Variable(tf.zeros(80))
     fc2    = tf.nn.relu(tf.matmul(fc1, fc2_W) + fc2_b)
     
+    # SOLUTION: Layer 5: Fully Connected. Input = 80. Output = 60.
+    fc3_W  = tf.Variable(tf.truncated_normal(shape=(80, 60), mean = mu, stddev = sigma))
+    fc3_b  = tf.Variable(tf.zeros(60))
+    fc3 = tf.matmul(fc2, fc3_W) + fc3_b
+
     # SOLUTION: Layer 5: Fully Connected. Input = 80. Output = 43.
-    fc3_W  = tf.Variable(tf.truncated_normal(shape=(80, 43), mean = mu, stddev = sigma))
-    fc3_b  = tf.Variable(tf.zeros(43))
-    logits = tf.matmul(fc2, fc3_W) + fc3_b
+    fc4_W  = tf.Variable(tf.truncated_normal(shape=(60, 43), mean = mu, stddev = sigma))
+    fc4_b  = tf.Variable(tf.zeros(43))
+    logits = tf.matmul(fc3, fc4_W) + fc4_b
+
+
         
     return logits
 
