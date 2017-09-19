@@ -195,12 +195,12 @@ def LeNet(x):
     conv1_1   = tf.nn.relu(tf.nn.conv2d(x, conv1_1_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_1_b)
 
     # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
-    conv1_2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 3), mean = mu, stddev = sigma))
-    conv1_2_b = tf.Variable(tf.zeros(3))
+    conv1_2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 7), mean = mu, stddev = sigma))
+    conv1_2_b = tf.Variable(tf.zeros(7))
     conv1_2   = tf.nn.relu(tf.nn.conv2d(conv1_1, conv1_2_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_2_b)
 
     # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
-    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 10), mean = mu, stddev = sigma))
+    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 7, 10), mean = mu, stddev = sigma))
     conv1_b = tf.Variable(tf.zeros(10))
     conv1   = tf.nn.relu(tf.nn.conv2d(conv1_2, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b)
 
