@@ -3,7 +3,6 @@ import pickle
 import matplotlib.pyplot as plt
 # %matplotlib inline
 
-from tqdm import tqdm_notebook, tnrange
 
 import numpy as np
 
@@ -60,6 +59,8 @@ def normalize(images, newMax=1., newMin=0., oldMax=255, oldMin=0):
 N_TRANSFORMS = 6
 SEED = 7
 
+# https://pypi.python.org/pypi/tqdm
+from tqdm import tqdm_notebook, tnrange, tqdm
 from keras.preprocessing.image import ImageDataGenerator
 def add_augumented_data(x, y, nb_transforms, rotation = 30, trans_range = 0.3, channel_shift = 0.05):
     datagen = ImageDataGenerator(rotation_range=rotation,                           
@@ -73,7 +74,7 @@ def add_augumented_data(x, y, nb_transforms, rotation = 30, trans_range = 0.3, c
     datagen.fit(x, seed=SEED)
     batch_size = x.shape[0]
 
-    for i in tnrange(nb_transforms, desc='Jittering'):       
+    for i in tqdm(range(nb_transforms), desc='Jittering'):       
         X_batch, y_batch = next(datagen.flow(x, y, batch_size=batch_size, seed=SEED))
 
         x = np.concatenate((x, X_batch), axis=0)
@@ -103,6 +104,9 @@ X_valid = normalize(X_valid).astype(np.float32)
 #                                                   random_state=SEED)
 
 # X_train, y_train = add_augumented_data(X_train, y_train, N_TRANSFORMS)
+print("data augmentation started")
+X_train, y_train = add_augumented_data(X_train, y_train, N_TRANSFORMS)
+print("data augmentation completed")
 
 print("Number of training features =", X_train.shape[0])
 print("Number of validation features =", X_valid.shape[0])
@@ -172,8 +176,6 @@ import tensorflow as tf
 # X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, test_size=0.2, random_state=0)
 X_validation, y_validation = X_valid, y_valid
 X_train, y_train = shuffle(X_train, y_train)
-
-# X_train, y_train = add_augumented_data(X_train, y_train, N_TRANSFORMS)
 
 EPOCHS = 10
 BATCH_SIZE = 128
