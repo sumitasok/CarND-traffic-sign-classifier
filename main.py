@@ -270,12 +270,15 @@ def evaluate(X_data, y_data):
     top_5_list = []
     e_logits_list = []
     sess = tf.get_default_session()
-    for offset in range(0, num_examples, BATCH_SIZE):
-        batch_x, batch_y = X_data[offset:offset+BATCH_SIZE], y_data[offset:offset+BATCH_SIZE]
-        accuracy, top_5_x, e_logits = sess.run([accuracy_operation, top_5, logits], feed_dict={x: batch_x, y: batch_y})
-        total_accuracy += (accuracy * len(batch_x))
-        top_5_list.append(top_5_x)
-        e_logits_list.append(e_logits)
+    g = tf.Graph()
+    with g.as_default():
+        for offset in range(0, num_examples, BATCH_SIZE):
+            batch_x, batch_y = X_data[offset:offset+BATCH_SIZE], y_data[offset:offset+BATCH_SIZE]
+            accuracy, top_5_x, e_logits = sess.run([accuracy_operation, top_5, logits], feed_dict={x: batch_x, y: batch_y})
+            total_accuracy += (accuracy * len(batch_x))
+            top_5_list.append(top_5_x)
+            e_logits_list.append(e_logits)
+    tf.summary.FileWriter("logs", g).close()
     return total_accuracy / num_examples, top_5_list, e_logits_list
 
 import time
