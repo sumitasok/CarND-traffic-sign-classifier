@@ -82,21 +82,21 @@ def add_augumented_data(x, y, nb_transforms, rotation = 30, trans_range = 0.3, c
     return x,y
 
 
-grayer = lambda image: cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-grayfunc = np.vectorize(grayer)
-type(X_train)
+# grayer = lambda image: cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# grayfunc = np.vectorize(grayer)
+# type(X_train)
 # grayfunc(X_train)
 
-def grayscale(images):
-    x = np.ndarray((32, 32))
-    for image in images:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        x = np.concatenate((x, gray), axis=0)
-    return x
+# def grayscale(images):
+#     x = np.ndarray((32, 32))
+#     for image in images:
+#         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#         x = np.concatenate((x, gray), axis=0)
+#     return x
 
 
-# X_train = normalize(X_train).astype(np.float32)
-# X_valid = normalize(X_valid).astype(np.float32)
+X_train = normalize(X_train).astype(np.float32)
+X_valid = normalize(X_valid).astype(np.float32)
 # X_train, X_valid, y_train, y_valid = train_test_split(X_train, 
 #                                                   y_train,
 #                                                   test_size=0.3,
@@ -119,7 +119,7 @@ def plot_top_k(n, k, top_5_samples, X_new, y_act, label_samples):
     fig.subplots_adjust(hspace=0.3, wspace=0.05)
 
     for idx, kresults in enumerate(top_5_samples):
-        print("idx : ", idx, " kresults : ", kresults)
+        print("idx : ", idx, " actual : ", y_act[idx], " kresults : ", kresults)
         # ax[idx][0].imshow(X_new[idx].squeeze())
         # ax[idx][0].set_title(str(y_act[idx]) + ' :' + label_samples[y_act[idx]]['signname'])
         # for rIdx, result in enumerate(kresults):
@@ -253,7 +253,7 @@ accuracy_operation = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 saver = tf.train.Saver()
 
 def evaluate(X_data, y_data):
-    X_data = normalize(X_data).astype(np.float32)
+    # X_data = normalize(X_data).astype(np.float32)
     num_examples = len(X_data)
     total_accuracy = 0
     top_5_list = []
@@ -389,6 +389,6 @@ with tf.Session() as session:
 
 plot_top_k(n,k, top_5_samples2[0][1], X_new2, y_act2, label_samples)
 
-print(top_5_samples[0][1])
+# print(top_5_samples[0][1])
 
 
