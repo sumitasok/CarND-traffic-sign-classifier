@@ -195,14 +195,25 @@ def LeNet(x):
     conv1_1   = tf.nn.relu(tf.nn.conv2d(x, conv1_1_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_1_b)
 
     # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
-    conv1_2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 7), mean = mu, stddev = sigma))
-    conv1_2_b = tf.Variable(tf.zeros(7))
+    conv1_2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 4), mean = mu, stddev = sigma))
+    conv1_2_b = tf.Variable(tf.zeros(4))
     conv1_2   = tf.nn.relu(tf.nn.conv2d(conv1_1, conv1_2_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_2_b)
 
     # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
-    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 7, 10), mean = mu, stddev = sigma))
+    conv1_3_W = tf.Variable(tf.truncated_normal(shape=(3, 3, 4, 7), mean = mu, stddev = sigma))
+    conv1_3_b = tf.Variable(tf.zeros(7))
+    conv1_3   = tf.nn.relu(tf.nn.conv2d(conv1_2, conv1_3_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_3_b)
+
+    # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
+    conv1_4_W = tf.Variable(tf.truncated_normal(shape=(3, 3, 7, 9), mean = mu, stddev = sigma))
+    conv1_4_b = tf.Variable(tf.zeros(9))
+    conv1_4   = tf.nn.relu(tf.nn.conv2d(conv1_3, conv1_4_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_4_b)
+
+
+    # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
+    conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 9, 10), mean = mu, stddev = sigma))
     conv1_b = tf.Variable(tf.zeros(10))
-    conv1   = tf.nn.relu(tf.nn.conv2d(conv1_2, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b)
+    conv1   = tf.nn.relu(tf.nn.conv2d(conv1_4, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b)
 
     # SOLUTION: Pooling. Input = 28x28x10. Output = 14x14x10.
     conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
