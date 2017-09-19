@@ -190,9 +190,19 @@ def LeNet(x):
     sigma = 0.1
 
     # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
+    conv1_1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 3), mean = mu, stddev = sigma))
+    conv1_1_b = tf.Variable(tf.zeros(3))
+    conv1_1   = tf.nn.relu(tf.nn.conv2d(x, conv1_1_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_1_b)
+
+    # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
+    conv1_2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 3), mean = mu, stddev = sigma))
+    conv1_2_b = tf.Variable(tf.zeros(3))
+    conv1_2   = tf.nn.relu(tf.nn.conv2d(conv1_1, conv1_2_W, strides=[1, 1, 1, 1], padding='SAME') + conv1_2_b)
+
+    # SOLUTION: Layer 1: Convolutional Activation. Input = 32x32x3. Output = 28x28x10.
     conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 3, 10), mean = mu, stddev = sigma))
     conv1_b = tf.Variable(tf.zeros(10))
-    conv1   = tf.nn.relu(tf.nn.conv2d(x, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b)
+    conv1   = tf.nn.relu(tf.nn.conv2d(conv1_2, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b)
 
     # SOLUTION: Pooling. Input = 28x28x10. Output = 14x14x10.
     conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
@@ -218,17 +228,10 @@ def LeNet(x):
     fc2_b  = tf.Variable(tf.zeros(80))
     fc2    = tf.nn.relu(tf.matmul(fc1, fc2_W) + fc2_b)
     
-    # SOLUTION: Layer 5: Fully Connected. Input = 80. Output = 60.
-    fc3_W  = tf.Variable(tf.truncated_normal(shape=(80, 60), mean = mu, stddev = sigma))
-    fc3_b  = tf.Variable(tf.zeros(60))
-    fc3 = tf.matmul(fc2, fc3_W) + fc3_b
-
     # SOLUTION: Layer 5: Fully Connected. Input = 80. Output = 43.
-    fc4_W  = tf.Variable(tf.truncated_normal(shape=(60, 43), mean = mu, stddev = sigma))
-    fc4_b  = tf.Variable(tf.zeros(43))
-    logits = tf.matmul(fc3, fc4_W) + fc4_b
-
-
+    fc3_W  = tf.Variable(tf.truncated_normal(shape=(80, 43), mean = mu, stddev = sigma))
+    fc3_b  = tf.Variable(tf.zeros(43))
+    logits = tf.matmul(fc2, fc3_W) + fc3_b  
         
     return logits
 
