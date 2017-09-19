@@ -5,3 +5,6 @@ models
 *.swp
 *.p
 .jpg
+input/
+output/
+lenet/
